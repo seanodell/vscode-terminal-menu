@@ -1,0 +1,14 @@
+[tools]
+node = "20"
+
+[tasks.clean]
+run = """
+    rm -rf node_modules
+    rm -rf out
+"""
+
+[tasks.build]
+run = """
+    npm install
+    npm run compile
+"""

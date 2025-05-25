@@ -1,0 +1,17 @@
+# Test justfile with various recipe formats
+
+# Regular recipe
+build:
+    npm run build
+
+# Hidden recipe (should be ignored)
+@clean:
+    rm -rf node_modules
+
+# Recipe with parameters
+test arg1 arg2:
+    npm test
+
+# Another regular recipe
+lint:
+    npm run lint

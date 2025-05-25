@@ -1,0 +1,5 @@
+test command
+labeled command:echo This is a test
+# This is a comment
+
+another command:ls -la

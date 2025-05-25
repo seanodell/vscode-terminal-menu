@@ -1,0 +1,124 @@
+{
+  "name": "seanodell-terminal-menu",
+  "displayName": "Terminal Menu",
+  "description": "Show commands from configuration files and run them quickly",
+  "version": "0.1.0",
+  "publisher": "seanodell",
+  "license": "MIT",
+  "author": {
+    "name": "Sean O'Dell",
+    "email": "sean@celsoft.com",
+    "url": "https://github.com/seanodell"
+  },
+  "keywords": [
+    "terminal",
+    "commands",
+    "menu",
+    "terminal-commands",
+    "npm-scripts",
+    "makefile",
+    "justfile",
+    "mise",
+    "developer-tools",
+    "productivity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanodell/vscode-terminal-menu"
+  },
+  "bugs": {
+    "url": "https://github.com/seanodell/vscode-terminal-menu/issues"
+  },
+  "homepage": "https://github.com/seanodell/vscode-terminal-menu#readme",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onTerminalProfile:terminal-menu.profile"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "seanodell-terminal-menu.showMenu",
+        "title": "Show Terminal Menu",
+        "icon": "$(menu)"
+      }
+    ],
+    "configuration": {
+      "title": "Terminal Menu",
+      "properties": {
+        "terminalMenu.autoEnter": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically press ENTER after inserting a command"
+        },
+        "terminalMenu.enabledConfigTypes": {
+          "type": "array",
+          "default": [".terminal-menu", "mise.toml", "justfile", "package.json", "Makefile"],
+          "description": "List of configuration file types to include in the terminal menu",
+          "items": {
+            "type": "string",
+            "enum": [
+              ".terminal-menu",
+              "mise.toml",
+              "justfile",
+              "package.json",
+              "Makefile"
+            ],
+            "enumDescriptions": [
+              ".terminal-menu files",
+              "mise.toml task definitions",
+              "justfile recipes",
+              "package.json npm scripts",
+              "Makefile targets"
+            ]
+          }
+        }
+      }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "seanodell-terminal-menu.showMenu",
+          "when": "view == terminal",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "seanodell-terminal-menu.showMenu"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint && rm -rf out/test/test-resources && cp -a src/test/test-resources out/test",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "package": "vsce package",
+    "install-extension": "vsce package && code --install-extension seanodell-terminal-menu-*.vsix"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.100.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.4.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5"
+  }
+}

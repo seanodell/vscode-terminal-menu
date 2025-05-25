@@ -1,0 +1,11 @@
+[tools]
+node = "20"
+
+[tasks.test]
+run = "echo Running test"
+
+[tasks.build]
+run = "npm run build"
+
+[tasks.clean]
+run = "rm -rf node_modules"

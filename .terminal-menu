@@ -1,0 +1,5 @@
+# Terminal menu commands
+# Format: label:command or just command
+
+Build Extension:mise build
+Clean:mise clean
