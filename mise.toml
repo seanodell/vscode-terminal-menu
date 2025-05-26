@@ -1,6 +1,13 @@
 [tools]
 node = "20"
 
+[env]
+_.file = '.env'
+_.path = ['{{config_root}}/node_modules/.bin']
+
+[hooks]
+postinstall = "npm install"
+
 [tasks.clean]
 run = """
     rm -rf node_modules
@@ -11,4 +18,13 @@ run = """
 run = """
     npm install
     npm run compile
+"""
+
+[tasks.package]
+run = "vsce package"
+
+[tasks.publish]
+run = """
+vsce publish
+open https://marketplace.visualstudio.com/manage/publishers/seanodell
 """

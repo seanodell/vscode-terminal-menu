@@ -1,7 +1,8 @@
 {
-  "name": "seanodell-terminal-menu",
+  "name": "terminal-menu",
   "displayName": "Terminal Menu",
   "description": "Show commands from configuration files and run them quickly",
+  "icon": "images/icon.png",
   "version": "0.1.0",
   "publisher": "seanodell",
   "license": "MIT",
@@ -44,7 +45,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "seanodell-terminal-menu.showMenu",
+        "command": "terminal-menu.showMenu",
         "title": "Show Terminal Menu",
         "icon": "$(menu)"
       }
@@ -84,14 +85,14 @@
     "menus": {
       "view/title": [
         {
-          "command": "seanodell-terminal-menu.showMenu",
+          "command": "terminal-menu.showMenu",
           "when": "view == terminal",
           "group": "navigation"
         }
       ],
       "commandPalette": [
         {
-          "command": "seanodell-terminal-menu.showMenu"
+          "command": "terminal-menu.showMenu"
         }
       ]
     }
@@ -104,7 +105,7 @@
     "lint": "eslint src",
     "test": "vscode-test",
     "package": "vsce package",
-    "install-extension": "vsce package && code --install-extension seanodell-terminal-menu-*.vsix"
+    "install-extension": "vsce package && code --install-extension terminal-menu-*.vsix"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -114,7 +115,7 @@
     "@typescript-eslint/parser": "^8.31.1",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.4.1",
+    "@vscode/vsce": "^3.4.2",
     "eslint": "^9.25.1",
     "typescript": "^5.8.3"
   },

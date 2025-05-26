@@ -27,7 +27,7 @@ suite("Terminal Menu Extension Tests", () => {
         // during test runs
         this.skip();
 
-        const extension = vscode.extensions.getExtension('seanodell-terminal-menu');
+        const extension = vscode.extensions.getExtension('terminal-menu');
         assert.notStrictEqual(extension, undefined, 'Extension should be available');
 
         if (extension) {
@@ -37,7 +37,7 @@ suite("Terminal Menu Extension Tests", () => {
 
     test("Commands should be registered", async () => {
         const commands = await vscode.commands.getCommands();
-        assert.strictEqual(commands.includes('seanodell-terminal-menu.showMenu'), true, 'showMenu command should be registered');
+        assert.strictEqual(commands.includes('terminal-menu.showMenu'), true, 'showMenu command should be registered');
     });
 
     test("Configuration setting terminalMenu.autoEnter should exist", async () => {
@@ -48,7 +48,7 @@ suite("Terminal Menu Extension Tests", () => {
 
         // We can't directly test the setting value in a unit test without workspace configuration
         // but we can verify the setting exists in the extension's configuration
-        const extension = vscode.extensions.getExtension('seanodell-terminal-menu');
+        const extension = vscode.extensions.getExtension('terminal-menu');
         if (extension) {
             assert.doesNotThrow(() => {
                 vscode.workspace.getConfiguration('terminalMenu').get('autoEnter');
@@ -64,7 +64,7 @@ suite("Terminal Menu Extension Tests", () => {
 
         // We can't directly test the setting value in a unit test without workspace configuration
         // but we can verify the setting exists in the extension's configuration
-        const extension = vscode.extensions.getExtension('seanodell-terminal-menu');
+        const extension = vscode.extensions.getExtension('terminal-menu');
         if (extension) {
             assert.doesNotThrow(() => {
                 vscode.workspace.getConfiguration('terminalMenu').get('enabledConfigTypes');

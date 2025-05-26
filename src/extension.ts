@@ -11,7 +11,7 @@ export { MenuCommand };
 
 export function activate(context: vscode.ExtensionContext) {
     console.log(
-        'Extension "seanodell-terminal-menu" is now active!'
+        'Extension "terminal-menu" is now active!'
     );
 
     getAllProviders().forEach(provider => {
@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     const showMenuCommand = vscode.commands.registerCommand(
-        "seanodell-terminal-menu.showMenu",
+        "terminal-menu.showMenu",
         async () => {
             const activeWorkspace = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 

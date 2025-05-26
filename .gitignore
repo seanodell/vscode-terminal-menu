@@ -4,3 +4,5 @@ node_modules
 .vscode-test/
 *.vsix
 *.log
+.env
+.DS_Store

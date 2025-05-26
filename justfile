@@ -15,7 +15,7 @@ test:
 
 # Install the extension locally
 install:
-    code --install-extension seanodell-terminal-menu-*.vsix
+    code --install-extension terminal-menu-*.vsix
 
 # Clean build artifacts
 @clean:
