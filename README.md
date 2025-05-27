@@ -115,3 +115,11 @@ For detailed information about the architecture and how to extend it, see [DEVEL
 1. Click the menu icon in the terminal panel
 2. Select a command from the quick pick menu
 3. The command will be inserted into the active terminal (and executed if auto-enter is enabled)
+
+## Multi-root Workspace Support
+
+When working with multi-root workspaces:
+
+- The extension automatically searches for configuration files in all workspace folders
+- Command menu items are labeled with their respective workspace folder name for easy identification
+- All commands from all workspace folders are combined into a single menu

@@ -21,18 +21,33 @@ export function activate(context: vscode.ExtensionContext) {
     const showMenuCommand = vscode.commands.registerCommand(
         "terminal-menu.showMenu",
         async () => {
-            const activeWorkspace = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-
-            if (!activeWorkspace) {
+            if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
                 vscode.window.showErrorMessage(
-                    "No workspace open. Please open a folder first."
+                    "No workspace folder open. Please open a folder first."
                 );
                 return;
             }
 
-            const menuItems = await providerRegistry.getMenuItems(activeWorkspace);
+            interface QuickPickItemWithMenuItem extends vscode.QuickPickItem {
+                menuItem: MenuCommand;
+            }
 
-            if (menuItems.length === 0) {
+            const allQuickPickItems: QuickPickItemWithMenuItem[] = [];
+
+            for (const workspaceFolder of vscode.workspace.workspaceFolders) {
+                const menuItems = await providerRegistry.getMenuItems(workspaceFolder.uri.fsPath);
+
+                const quickPickItems: QuickPickItemWithMenuItem[] = menuItems.map((item) => ({
+                    label: item.label,
+                    description: item.source ? `from ${workspaceFolder.name}/${item.source}` : undefined,
+                    detail: item.command,
+                    menuItem: item
+                }));
+
+                allQuickPickItems.push(...quickPickItems);
+            }
+
+            if (allQuickPickItems.length === 0) {
                 vscode.window.showInformationMessage(
                     "No terminal menu items found. Create a supported configuration file or check your enabled configuration types in settings.",
                     "Open Settings"
@@ -44,19 +59,9 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
             }
 
-            interface QuickPickItemWithMenuItem extends vscode.QuickPickItem {
-                menuItem: MenuCommand;
-            }
-
-            const quickPickItems: QuickPickItemWithMenuItem[] = menuItems.map((item) => ({
-                label: item.label,
-                description: item.source ? `from ${item.source}` : undefined,
-                detail: item.command,
-                menuItem: item
-            }));
 
             const selectedItem = await vscode.window.showQuickPick(
-                quickPickItems,
+                allQuickPickItems,
                 {
                     placeHolder: "Select a terminal command to run",
                 }
