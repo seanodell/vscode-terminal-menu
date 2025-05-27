@@ -33,7 +33,7 @@ When implementing a new provider, follow these guidelines:
 To add support for a new configuration file type:
 
 1. Create a new file in the `providers` directory, e.g., `my-provider.ts`
-2. Implement the `MenuProvider` interface (preferably by extending `BaseMenuProvider`)
+2. Implement the `MenuProvider` by extending `BaseMenuProvider`
 3. Register your provider in `providers/index.ts`
 4. Add your provider to the array in `getAllProviders()` in `providers/index.ts`
 5. Update the configuration in `package.json` to include your provider's ID
