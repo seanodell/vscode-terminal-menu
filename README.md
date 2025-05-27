@@ -4,13 +4,17 @@ A VS Code extension that displays a menu of terminal commands from configuration
 
 ## Features
 
-- Displays commands from `.terminal-menu` files in a quick picker menu
-- Supports `mise.toml` task parsing
-- Supports `justfile` recipe parsing (ignores hidden recipes)
-- Supports `package.json` scripts
-- Supports `Makefile` targets (ignores internal targets)
+- Displays commands from config files in a quick picker menu:
+  - `.terminal-menu` for plain commands
+  - `mise.toml` task parsing
+  - `justfile` recipe parsing (ignores hidden recipes)
+  - `package.json` scripts
+  - `Makefile` targets (ignores internal targets)
 - Shows an icon in the terminal panel for quick access
 - Configurable auto-enter behavior after command selection
+- Select which folders and files to load.
+
+![screenshot](images/screenshot.png)
 
 ## Configuration Files
 

@@ -3,7 +3,7 @@
   "displayName": "Terminal Menu",
   "description": "Show commands from configuration files and run them quickly",
   "icon": "images/icon.png",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "seanodell",
   "license": "MIT",
   "author": {

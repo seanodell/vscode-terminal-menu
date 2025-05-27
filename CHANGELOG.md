@@ -1,3 +1,7 @@
+## [0.3.1]
+
+- Minor documentation improvements
+
 ## [0.3.0]
 
 - Made `enabledConfigTypes` setting dynamically use all available providers
