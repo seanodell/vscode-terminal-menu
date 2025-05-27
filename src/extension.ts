@@ -18,6 +18,44 @@ export function activate(context: vscode.ExtensionContext) {
         providerRegistry.registerProvider(provider);
     });
 
+    const selectProvidersCommand = vscode.commands.registerCommand(
+        "terminal-menu.selectProviders",
+        async () => {
+            const providers = providerRegistry.getAllProviders();
+            const config = vscode.workspace.getConfiguration("terminalMenu");
+            const currentEnabledTypes = config.get<string[]>("enabledConfigTypes", []);
+
+            const quickPickItems = providers.map(provider => ({
+                label: provider.id,
+                description: provider.name,
+                picked: currentEnabledTypes.length === 0 || currentEnabledTypes.includes(provider.id)
+            }));
+
+            const selectedItems = await vscode.window.showQuickPick(
+                quickPickItems,
+                {
+                    canPickMany: true,
+                    placeHolder: "Select which configuration file types to include in the terminal menu"
+                }
+            );
+
+            if (selectedItems) {
+                // Update the setting with the selected provider IDs
+                const selectedProviderIds = selectedItems.map(item => item.label);
+                await config.update("enabledConfigTypes", selectedProviderIds, vscode.ConfigurationTarget.Workspace);
+
+                // Show confirmation
+                if (selectedProviderIds.length === 0) {
+                    vscode.window.showInformationMessage("All provider types enabled (default behavior)");
+                } else {
+                    vscode.window.showInformationMessage(`Enabled provider types: ${selectedProviderIds.join(", ")}`);
+                }
+            }
+        }
+    );
+
+    context.subscriptions.push(selectProvidersCommand);
+
     const showMenuCommand = vscode.commands.registerCommand(
         "terminal-menu.showMenu",
         async () => {
@@ -49,11 +87,14 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (allQuickPickItems.length === 0) {
                 vscode.window.showInformationMessage(
-                    "No terminal menu items found. Create a supported configuration file or check your enabled configuration types in settings.",
+                    "No terminal menu items found. Create a supported configuration file or check your enabled configuration types.",
+                    "Select Provider Types",
                     "Open Settings"
                 ).then(selection => {
                     if (selection === "Open Settings") {
                         vscode.commands.executeCommand("workbench.action.openSettings", "terminalMenu.enabledConfigTypes");
+                    } else if (selection === "Select Provider Types") {
+                        vscode.commands.executeCommand("terminal-menu.selectProviders");
                     }
                 });
                 return;

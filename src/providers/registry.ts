@@ -25,8 +25,11 @@ export class MenuProviderRegistry {
 
         let allProviders = this.getAllProviders();
 
-        const defaultEnabledTypes = allProviders.map(provider => provider.id);
-        const enabledTypes = config.get<string[]>("enabledConfigTypes", defaultEnabledTypes);
+        const enabledTypes = config.get<string[]>("enabledConfigTypes", []);
+        if (enabledTypes.length === 0) {
+            const defaultEnabledTypes = allProviders.map(provider => provider.id);
+            enabledTypes.push(...defaultEnabledTypes);
+        }
 
         const enabledProviders = allProviders.filter(
             provider => enabledTypes.includes(provider.id)

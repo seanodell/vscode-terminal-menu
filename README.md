@@ -89,12 +89,10 @@ test:
 The extension contributes the following settings:
 
 * `terminalMenu.autoEnter`: Enable/disable automatically pressing ENTER after inserting a command (default: true)
-* `terminalMenu.enabledConfigTypes`: Select which configuration file types to include in the terminal menu (default: all enabled)
-  * `.terminal-menu`: .terminal-menu files
-  * `mise.toml`: mise.toml task definitions
-  * `justfile`: justfile recipes
-  * `package.json`: package.json npm scripts
-  * `Makefile`: Makefile targets
+* `terminalMenu.enabledConfigTypes`: Select which configuration file types to include in the terminal menu (default: empty, which enables all)
+  * When left empty, all available providers will be used automatically
+  * Specify individual providers to limit which ones are active
+  * Use the command `Terminal Menu: Select Enabled Provider Types` for a dynamic selection interface
 
 ## Architecture
 
