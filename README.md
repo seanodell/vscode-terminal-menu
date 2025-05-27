@@ -93,6 +93,10 @@ The extension contributes the following settings:
   * When left empty, all available providers will be used automatically
   * Specify individual providers to limit which ones are active
   * Use the command `Terminal Menu: Select Enabled Provider Types` for a dynamic selection interface
+* `terminalMenu.enabledWorkspaceFolders`: Select which workspace folders to search for configuration files (default: empty, which enables all)
+  * When left empty, all workspace folders will be searched
+  * Specify folder names to limit which ones are searched
+  * Use the command `Terminal Menu: Select Workspace Folders` for a dynamic selection interface
 
 ## Architecture
 

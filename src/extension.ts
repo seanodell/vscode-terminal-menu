@@ -40,11 +40,9 @@ export function activate(context: vscode.ExtensionContext) {
             );
 
             if (selectedItems) {
-                // Update the setting with the selected provider IDs
                 const selectedProviderIds = selectedItems.map(item => item.label);
                 await config.update("enabledConfigTypes", selectedProviderIds, vscode.ConfigurationTarget.Workspace);
 
-                // Show confirmation
                 if (selectedProviderIds.length === 0) {
                     vscode.window.showInformationMessage("All provider types enabled (default behavior)");
                 } else {
@@ -55,6 +53,55 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(selectProvidersCommand);
+
+    const selectWorkspaceFoldersCommand = vscode.commands.registerCommand(
+        "terminal-menu.selectWorkspaceFolders",
+        async () => {
+            if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
+                vscode.window.showErrorMessage(
+                    "No workspace folder open. Please open a folder first."
+                );
+                return;
+            }
+
+            if (vscode.workspace.workspaceFolders.length === 1) {
+                vscode.window.showInformationMessage(
+                    "Only one workspace folder is open. All configuration files will be used from this folder."
+                );
+                return;
+            }
+
+            const config = vscode.workspace.getConfiguration("terminalMenu");
+            const currentEnabledFolders = config.get<string[]>("enabledWorkspaceFolders", []);
+
+            const quickPickItems = vscode.workspace.workspaceFolders.map(folder => ({
+                label: folder.name,
+                description: folder.uri.fsPath,
+                picked: currentEnabledFolders.length === 0 || currentEnabledFolders.includes(folder.name)
+            }));
+
+            const selectedItems = await vscode.window.showQuickPick(
+                quickPickItems,
+                {
+                    canPickMany: true,
+                    placeHolder: "Select which workspace folders to search for configuration files"
+                }
+            );
+
+            if (selectedItems) {
+                const selectedFolderNames = selectedItems.map(item => item.label);
+                await config.update("enabledWorkspaceFolders", selectedFolderNames, vscode.ConfigurationTarget.Workspace);
+
+                if (selectedFolderNames.length === 0) {
+                    vscode.window.showInformationMessage("All workspace folders enabled (default behavior)");
+                } else {
+                    vscode.window.showInformationMessage(`Enabled workspace folders: ${selectedFolderNames.join(", ")}`);
+                }
+            }
+        }
+    );
+
+    context.subscriptions.push(selectWorkspaceFoldersCommand);
 
     const showMenuCommand = vscode.commands.registerCommand(
         "terminal-menu.showMenu",
@@ -72,7 +119,14 @@ export function activate(context: vscode.ExtensionContext) {
 
             const allQuickPickItems: QuickPickItemWithMenuItem[] = [];
 
-            for (const workspaceFolder of vscode.workspace.workspaceFolders) {
+            const config = vscode.workspace.getConfiguration("terminalMenu");
+            const enabledFolders = config.get<string[]>("enabledWorkspaceFolders", []);
+
+            const foldersToSearch = enabledFolders.length === 0
+                ? vscode.workspace.workspaceFolders
+                : vscode.workspace.workspaceFolders.filter(folder => enabledFolders.includes(folder.name));
+
+            for (const workspaceFolder of foldersToSearch) {
                 const menuItems = await providerRegistry.getMenuItems(workspaceFolder.uri.fsPath);
 
                 const quickPickItems: QuickPickItemWithMenuItem[] = menuItems.map((item) => ({
@@ -87,14 +141,17 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (allQuickPickItems.length === 0) {
                 vscode.window.showInformationMessage(
-                    "No terminal menu items found. Create a supported configuration file or check your enabled configuration types.",
+                    "No terminal menu items found. Create a supported configuration file or check your enabled settings.",
                     "Select Provider Types",
+                    "Select Workspace Folders",
                     "Open Settings"
                 ).then(selection => {
                     if (selection === "Open Settings") {
-                        vscode.commands.executeCommand("workbench.action.openSettings", "terminalMenu.enabledConfigTypes");
+                        vscode.commands.executeCommand("workbench.action.openSettings", "terminalMenu");
                     } else if (selection === "Select Provider Types") {
                         vscode.commands.executeCommand("terminal-menu.selectProviders");
+                    } else if (selection === "Select Workspace Folders") {
+                        vscode.commands.executeCommand("terminal-menu.selectWorkspaceFolders");
                     }
                 });
                 return;

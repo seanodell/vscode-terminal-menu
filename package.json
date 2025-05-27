@@ -3,7 +3,7 @@
   "displayName": "Terminal Menu",
   "description": "Show commands from configuration files and run them quickly",
   "icon": "images/icon.png",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "seanodell",
   "license": "MIT",
   "author": {
@@ -52,6 +52,10 @@
       {
         "command": "terminal-menu.selectProviders",
         "title": "Terminal Menu: Select Enabled Provider Types"
+      },
+      {
+        "command": "terminal-menu.selectWorkspaceFolders",
+        "title": "Terminal Menu: Select Workspace Folders"
       }
     ],
     "configuration": {
@@ -66,6 +70,14 @@
           "type": "array",
           "default": [],
           "description": "List of configuration file types to include in the terminal menu. If empty, all registered providers will be used. Use the 'Terminal Menu: Select Enabled Provider Types' command for a dynamic selection interface.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "terminalMenu.enabledWorkspaceFolders": {
+          "type": "array",
+          "default": [],
+          "description": "List of workspace folders to search for configuration files. If empty, all workspace folders will be searched. Use the 'Terminal Menu: Select Workspace Folders' command for a dynamic selection interface.",
           "items": {
             "type": "string"
           }
@@ -86,6 +98,9 @@
         },
         {
           "command": "terminal-menu.selectProviders"
+        },
+        {
+          "command": "terminal-menu.selectWorkspaceFolders"
         }
       ]
     }

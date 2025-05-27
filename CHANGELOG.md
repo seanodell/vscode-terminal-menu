@@ -1,4 +1,4 @@
-## Coming
+## [0.3.0]
 
 - Made `enabledConfigTypes` setting dynamically use all available providers
   - When empty, all registered providers are used by default
@@ -6,6 +6,10 @@
 - Added `Terminal Menu: Select Enabled Provider Types` command
   - Provides a dynamic multi-select interface for enabling/disabling providers
   - Shows all currently registered provider types
+- Added `enabledWorkspaceFolders` setting to control which workspace folders are searched
+- Added `Terminal Menu: Select Workspace Folders` command
+  - Provides a dynamic multi-select interface for enabling/disabling workspace folders
+  - Helpful for large multi-root workspaces
 
 ## [0.2.0]
 
